@@ -130,9 +130,10 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (CurrentLinkedNumber < NextEnlargeThreshold)
         {
+            PoolGameObject.GetComponent<Animator>().enabled = true;
             return;
         }
-
+        PoolGameObject.GetComponent<Animator>().enabled = false;
         float shakeXAmount = UnityEngine.Random.Range(-_shakeAmount, _shakeAmount);
         float shakeYAmount = UnityEngine.Random.Range(-_shakeAmount, _shakeAmount);
         float shakeZAmount = UnityEngine.Random.Range(-_shakeAmount, _shakeAmount);
@@ -330,7 +331,6 @@ public class PlayerCharacter : MonoBehaviour
         {
             return;
         }
-
         ShakeAudioSource.Stop();
 
         CameraControl.Instance.MaxExtraZoomDistance *= 2;

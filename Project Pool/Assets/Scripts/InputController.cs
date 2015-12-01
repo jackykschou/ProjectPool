@@ -184,23 +184,32 @@ public class InputController : MonoBehaviour
 
     public float GetXAxis()
     {
-        return (Mathf.Abs(Input.GetAxis("Mouse X")) > Mathf.Abs(Input.GetAxis("Controller X")))
-            ? Input.GetAxis("Mouse X")
+        return (Mathf.Abs(Input.GetAxis("Mouse Y")) > Mathf.Abs(Input.GetAxis("Controller X")))
+            ? Input.GetAxis("Mouse Y")
             : ((Mathf.Abs(Input.GetAxis("Controller X")) < 0.3f) ? 0f : Input.GetAxis("Controller X"));
     }
 
     public float GetYAxis()
     {
-        return (Mathf.Abs(Input.GetAxis("Mouse Y")) > Mathf.Abs(Input.GetAxis("Controller Y"))) 
+        return (Mathf.Abs(Input.GetAxis("Mouse Y")) > Mathf.Abs(Input.GetAxis("Controller Y")))
             ? Input.GetAxis("Mouse Y")
             : ((Mathf.Abs(Input.GetAxis("Controller Y")) < 0.3f) ? 0f : Input.GetAxis("Controller Y"));
     }
 
     public float GetZAxis()
     {
-        return (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > Mathf.Abs(Input.GetAxis("Controller Z")))
+        if (Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            return (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > Mathf.Abs(Input.GetAxis("Controller Z Mac")))
+           ? (Input.GetAxis("Mouse ScrollWheel") * 10f)
+           : ((Mathf.Abs(Input.GetAxis("Controller Z Mac")) < 0.3f) ? 0f : Input.GetAxis("Controller Z Mac") * 0.5f);
+        }
+        else
+        {
+            return (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > Mathf.Abs(Input.GetAxis("Controller Z")))
             ? (Input.GetAxis("Mouse ScrollWheel") * 10f)
             : ((Mathf.Abs(Input.GetAxis("Controller Z")) < 0.3f) ? 0f : Input.GetAxis("Controller Z") * 0.5f);
+        }
     }
 
     public bool MoveDown()
@@ -225,11 +234,25 @@ public class InputController : MonoBehaviour
 
     public bool MoveFoward()
     {
-        return Input.GetMouseButton(0) || (Input.GetAxis("MoveForward") > 0f);
+        if (Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            return Input.GetMouseButton(0) || (Input.GetAxis("MoveForward Mac") > 0f);
+        }
+        else
+        {
+            return Input.GetMouseButton(0) || (Input.GetAxis("MoveForward") > 0f);
+        }
     }
 
     public bool MoveBackward()
     {
-        return Input.GetMouseButton(1) || (Input.GetAxis("MoveBackward") > 0f);
+        if (Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            return Input.GetMouseButton(1) || (Input.GetAxis("MoveBackward Mac") > 0f);
+        }
+        else
+        {
+            return Input.GetMouseButton(1) || (Input.GetAxis("MoveBackward") > 0f);
+        }
     }
 }
